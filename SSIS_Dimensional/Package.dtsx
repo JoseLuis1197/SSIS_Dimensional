@@ -11,8 +11,8 @@
   DTS:LocaleID="3082"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="4"
-  DTS:VersionGUID="{21A6E294-C7D5-46C6-8645-7158C8CF293F}">
+  DTS:VersionBuild="7"
+  DTS:VersionGUID="{C9ECB7C6-E83F-4BDA-AF28-BCDDBE54063A}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -87,7 +87,7 @@
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{CB91739D-A745-42C9-8625-9F233FBBCAC4}"
-          SQLTask:SqlStatementSource="&#xA;DELETE FROM dimFecha&#xA;&#xA;declare @StartDate datetime, @EndDate datetime&#xA;--Deberá ser la fecha más antigua de la que tengamos datos&#xA;&#xA;set @StartDate = '20091201'&#xA;&#xA;--Podemos bien dejar cargado un periodo muy amplio&#xA;set @EndDate = '21801231'&#xA;--O bien, cargar los cinco próximos años completos&#xA;--set @EndDate = cast(cast(year(getdate()) + 5 as char(4)) + '1231' as datetime)&#xA;while @StartDate &lt;= @EndDate begin&#xA;   exec SP_DIMTIEMPO_CARGA @StartDate&#xA;   -- Podemos incrementar contador en años, meses o días&#xA;   -- poniendo year, month o day en la función dateadd&#xA;   set @StartDate = dateadd(day,1,@StartDate)&#xA;   -- Lo más habitual es tener la granularidad día&#xA;end&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:SqlStatementSource="EXEC SP_DIMFECHA_CARGA '20091201','21801231'" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
