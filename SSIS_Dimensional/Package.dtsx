@@ -11,8 +11,8 @@
   DTS:LocaleID="3082"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="3"
-  DTS:VersionGUID="{39F6E9EF-5566-4A08-A10E-F46DCD182CE2}">
+  DTS:VersionBuild="4"
+  DTS:VersionGUID="{21A6E294-C7D5-46C6-8645-7158C8CF293F}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -48,7 +48,7 @@
       DTS:LocaleID="-1"
       DTS:ObjectName="Carga dimAgencia"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -65,12 +65,29 @@
       DTS:LocaleID="-1"
       DTS:ObjectName="Carga dimProductoModelo"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="2">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{CB91739D-A745-42C9-8625-9F233FBBCAC4}"
           SQLTask:SqlStatementSource="EXEC SP_DIMPRODUCTOMODELO_CARGA" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Carga dimTiempo"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{8E49C92D-2D1F-40DD-8496-DF84FF1C5A42}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Carga dimTiempo"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{CB91739D-A745-42C9-8625-9F233FBBCAC4}"
+          SQLTask:SqlStatementSource="&#xA;DELETE FROM dimFecha&#xA;&#xA;declare @StartDate datetime, @EndDate datetime&#xA;--Deberá ser la fecha más antigua de la que tengamos datos&#xA;&#xA;set @StartDate = '20091201'&#xA;&#xA;--Podemos bien dejar cargado un periodo muy amplio&#xA;set @EndDate = '21801231'&#xA;--O bien, cargar los cinco próximos años completos&#xA;--set @EndDate = cast(cast(year(getdate()) + 5 as char(4)) + '1231' as datetime)&#xA;while @StartDate &lt;= @EndDate begin&#xA;   exec SP_DIMTIEMPO_CARGA @StartDate&#xA;   -- Podemos incrementar contador en años, meses o días&#xA;   -- poniendo year, month o day en la función dateadd&#xA;   set @StartDate = dateadd(day,1,@StartDate)&#xA;   -- Lo más habitual es tener la granularidad día&#xA;end&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -139,6 +156,22 @@
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 3"
       DTS:To="Package\Fin de carga" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{059B6A48-68FF-47D8-8999-48319317296E}"
+      DTS:From="Package\Inicio de carga"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Carga dimTiempo" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{F85D851B-D590-4BCB-9088-408EF9AE71DF}"
+      DTS:From="Package\Carga dimTiempo"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\Fin de carga" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
@@ -151,7 +184,7 @@
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="149,42"
           Id="Package\Inicio de carga"
@@ -272,6 +305,78 @@
                   Capacity="5">
                   <mssgle:LineSegment
                     End="0,31.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="162,42"
+          Id="Package\Carga dimTiempo"
+          TopLeft="507,131" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="395.75,78">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="192.25,53"
+              Start="0,0"
+              End="192.25,45.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,14.2879120879121" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,14.2879120879121"
+                    Point2="0,18.2879120879121"
+                    Point3="4,18.2879120879121" />
+                  <mssgle:LineSegment
+                    End="188.25,18.2879120879121" />
+                  <mssgle:CubicBezierSegment
+                    Point1="188.25,18.2879120879121"
+                    Point2="192.25,18.2879120879121"
+                    Point3="192.25,22.2879120879121" />
+                  <mssgle:LineSegment
+                    End="192.25,45.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="588,173">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-191.25,36"
+              Start="0,0"
+              End="-191.25,28.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.5417661097852" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,19.5417661097852"
+                    Point2="0,23.5417661097852"
+                    Point3="-4,23.5417661097852" />
+                  <mssgle:LineSegment
+                    End="-187.25,23.5417661097852" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-187.25,23.5417661097852"
+                    Point2="-191.25,23.5417661097852"
+                    Point3="-191.25,27.5417661097852" />
+                  <mssgle:LineSegment
+                    End="-191.25,28.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
