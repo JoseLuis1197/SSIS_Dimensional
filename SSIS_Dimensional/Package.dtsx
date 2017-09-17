@@ -11,8 +11,8 @@
   DTS:LocaleID="3082"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="15"
-  DTS:VersionGUID="{EE384867-70F2-4580-A368-20226713252B}">
+  DTS:VersionBuild="16"
+  DTS:VersionGUID="{8A81F60A-5DAF-4A89-A7DA-FEE5D51E3B4F}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -172,7 +172,7 @@
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{CB91739D-A745-42C9-8625-9F233FBBCAC4}"
-          SQLTask:SqlStatementSource="DELETE FACTDESEMBOLSOMORA" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:SqlStatementSource="EXEC SP_INICIO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
   </DTS:Executables>
