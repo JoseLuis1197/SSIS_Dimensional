@@ -11,8 +11,8 @@
   DTS:LocaleID="3082"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="19"
-  DTS:VersionGUID="{B5771533-1C48-4F6F-B0F1-1C70B0AEDCEE}">
+  DTS:VersionBuild="20"
+  DTS:VersionGUID="{5F963F8B-4370-4F88-BAEA-11CF6AE29C79}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -155,7 +155,7 @@
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{CB91739D-A745-42C9-8625-9F233FBBCAC4}"
-          SQLTask:SqlStatementSource="EXEC SP_CONTROL_CARGA&#xA;&#xA;EXEC SP_FACTDESEMBOLSO_CARGA&#xA;&#xA;EXEC SP_FACTSOLICITUDCREDITO_CARGA" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:SqlStatementSource="EXEC SP_CONTROL_CARGA&#xA;GO&#xA;&#xA;EXEC SP_FACTDESEMBOLSO_CARGA&#xA;GO&#xA;&#xA;EXEC SP_FACTSOLICITUDCREDITO_CARGA&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
